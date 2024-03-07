@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -14,14 +14,22 @@ import { AppService } from './app.service';
           port: 3001,
         },
       },
+      {
+        name: 'GRPC_USERS_SERVICE',
+        transport: Transport.GRPC,
+        options: {
+          package: ['userproto'],
+          protoPath: [join(__dirname, 'protos/user.proto')],
+          url: 'localhost:3002',
+        },
+      },
     ]),
   ],
   controllers: [AppController],
   providers: [
-    AppService,
     // {
     //   provide: 'TCP_BOOKS_SERVICE',
-    //   useFactory: () => {
+    //   useFactory: (/* configService: ConfigService */) => {
     //     return ClientProxyFactory.create({
     //       transport: Transport.TCP,
     //       options: {
@@ -29,12 +37,9 @@ import { AppService } from './app.service';
     //       },
     //     });
     //   },
-    //   inject: [],
-    //   // useFactory: (configService: ConfigService) => {
-    //   //   const mathSvcOptions = configService.getMathSvcOptions();
-    //   //   return ClientProxyFactory.create(mathSvcOptions);
-    //   // },
-    //   // inject: [ConfigService],
+    //   inject: [
+    //     /* ConfigService */
+    //   ],
     // },
   ],
 })

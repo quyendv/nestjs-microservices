@@ -6,21 +6,16 @@ import {
   Inject,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
-import { AppService } from './app.service';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientGrpc, ClientProxy } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly appService: AppService,
     @Inject('TCP_BOOKS_SERVICE') private readonly tcpClient: ClientProxy,
+    @Inject('GRPC_USERS_SERVICE') private readonly grpcClient: ClientGrpc,
   ) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
 
   @Get('tcp/:id')
   getTcpBookById(@Param('id') id: string) {
@@ -44,5 +39,29 @@ export class AppController {
   @Delete('tcp/:id')
   removeTcpBook(@Param('id') id: string) {
     return this.tcpClient.emit({ cmd: 'remove_book' }, { id });
+  }
+
+  @Get('grpc')
+  listGrpcUsers() {
+    return this.grpcClient.getService<any>('UserService').getUsers({});
+  }
+
+  @Post('grpc')
+  createGrpcUser(@Body() user: { name: string }) {
+    return this.grpcClient.getService<any>('UserService').createUser(user);
+  }
+
+  @Delete('grpc/:id')
+  removeGrpcUser(@Param('id') id: string) {
+    return this.grpcClient
+      .getService<any>('UserService')
+      .deleteUser({ id: +id });
+  }
+
+  @Put('grpc/:id')
+  updateGrpcUser(@Param('id') id: string, @Body() user: { name: string }) {
+    return this.grpcClient
+      .getService<any>('UserService')
+      .updateUser({ id: +id, name: user.name });
   }
 }
