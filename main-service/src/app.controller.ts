@@ -15,6 +15,7 @@ export class AppController {
   constructor(
     @Inject('TCP_BOOKS_SERVICE') private readonly tcpClient: ClientProxy,
     @Inject('GRPC_USERS_SERVICE') private readonly grpcClient: ClientGrpc,
+    @Inject('RABBIT_MQ_SERVICE') private readonly rabbitMqClient: ClientProxy,
   ) {}
 
   @Get('tcp/:id')
@@ -63,5 +64,36 @@ export class AppController {
     return this.grpcClient
       .getService<any>('UserService')
       .updateUser({ id: +id, name: user.name });
+  }
+
+  @Get('rabbit-mq')
+  listRabbitMqCats() {
+    return this.rabbitMqClient.send('list_cats', {});
+  }
+
+  @Get('rabbit-mq/:id')
+  getRabbitCat(@Param('id') id: string) {
+    return this.rabbitMqClient.send('get_cat', +id);
+  }
+
+  @Post('rabbit-mq')
+  createRabbitMqCat(@Body() message: { name: string }) {
+    return this.rabbitMqClient.emit('create_cat', message);
+  }
+
+  @Delete('rabbit-mq/:id')
+  removeRabbitMqCat(@Param('id') id: string) {
+    return this.rabbitMqClient.emit('delete_cat', +id);
+  }
+
+  @Put('rabbit-mq/:id')
+  updateRabbitMqCat(
+    @Param('id') id: string,
+    @Body() message: { name?: string; age?: number },
+  ) {
+    return this.rabbitMqClient.emit('update_cat', {
+      id: +id,
+      name: message.name,
+    });
   }
 }

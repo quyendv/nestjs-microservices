@@ -23,6 +23,17 @@ import { AppController } from './app.controller';
           url: 'localhost:3002',
         },
       },
+      {
+        name: 'RABBIT_MQ_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://user:password@localhost:5672'],
+          queue: 'demo_queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },
     ]),
   ],
   controllers: [AppController],
