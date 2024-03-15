@@ -1,0 +1,7 @@
+cat mongo-config.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-config
+data:
+  mongo-url: mongo-service # this will be the service name of MongoDB - endpoint of MongoDB

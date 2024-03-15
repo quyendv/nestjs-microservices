@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels: # labels are key/value pairs that are attached to K8s resources - Identifier:9
+    app: mongo
+spec:
+  replicas: 1
+  selector: # selector of pods
+    matchLabels:
+      app: mongo
+  template: # main part - blueprint for pods
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:5.0 # official image
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              # value:
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password
+
+--- # seperator - can have multiple configurations within 1 file
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  selector:
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27017 # open port of service, client request to service via this port
+      targetPort: 27017 # pod port, forward to here
