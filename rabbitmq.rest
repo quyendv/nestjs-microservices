@@ -1,0 +1,31 @@
+############ RabbitMQ Server ############
+
+@host = http://localhost:3000/rabbit-mq
+
+### List cats
+GET {{host}}
+
+### Get cat by id
+GET {{host}}/1
+
+### Create cat
+POST {{host}}
+Content-Type: application/json
+
+{
+  "name": "Cat 001",
+  "age": 2
+}
+
+
+### Update cat
+PUT {{host}}/1
+Content-Type: application/json
+
+{ 
+  "name": "Updated Cat"
+}
+
+
+### Delete cat
+DELETE {{host}}/1

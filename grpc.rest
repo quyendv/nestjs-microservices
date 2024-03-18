@@ -1,0 +1,27 @@
+############ GRPC Server ############
+
+@host = http://localhost:3000/grpc
+
+### List users
+GET {{host}}
+
+### Create user
+POST {{host}}
+Content-Type: application/json
+
+{
+  "name": "John Doe"
+}
+
+
+### Update user
+PUT {{host}}/1
+Content-Type: application/json
+
+{ 
+  "name": "John Doe updated"
+}
+
+
+### Delete user
+DELETE {{host}}/1

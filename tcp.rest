@@ -1,0 +1,21 @@
+############ TCP Server ############
+
+@host = http://localhost:3000/tcp
+
+### Get Book
+GET {{host}}/1
+
+### Create Book
+POST {{host}}
+Content-Type: application/json
+
+{
+  "title": "Book 001"
+}
+
+
+### List Books
+GET {{host}}
+
+### Remove Book
+DELETE {{host}}/1709785487682
