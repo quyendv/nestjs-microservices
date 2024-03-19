@@ -44,7 +44,7 @@ metadata:
 spec:
   type: NodePort # easy to access from outer, see ClusterIP (default), LoadBalancer, ExternalName
   selector: # must be correct pod labels
-    app: webapp-service
+    app: webapp
   ports:
     - protocol: TCP
       port: 3000
