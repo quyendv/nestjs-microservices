@@ -11,14 +11,14 @@ spec:
         paths:
           - path: /
             pathType: Prefix
-            backend:  
+            backend:
               service:
                 name: adminer
                 port:
                   number: 8080
     - host: kanban.k8s.com
       http:
-        paths: 
+        paths:
           - path: /api/
             pathType: Prefix
             backend:
