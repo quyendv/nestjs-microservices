@@ -1,2 +1,6 @@
 # *.rest
 # *.http
+
+k8s/**/*.key
+k8s/**/*.csr
+k8s/**/*.crt
