@@ -78,9 +78,3 @@ kubectl --kubeconfig=kubeconfig-admin.yaml get pods --all-namespaces
 ```
 
 ## Dashboard
-
-```bash
-minikube dashboard
-```
-
-Provide token

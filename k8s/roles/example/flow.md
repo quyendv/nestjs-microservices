@@ -99,7 +99,7 @@ roleRef:
 
 ## Tạo các users
 
-Trong môi trường thực tế, bạn sẽ sử dụng một hệ thống quản lý người dùng. Tuy nhiên, với Minikube, chúng ta có thể mô phỏng bằng cách tạo các client certificates.
+Trong môi trường thực tế, sẽ sử dụng một hệ thống quản lý người dùng. Tuy nhiên, với Minikube, chúng ta có thể mô phỏng bằng cách tạo các client certificates.
 
 ```bash
 # Tạo private key cho mỗi user (.key files)
